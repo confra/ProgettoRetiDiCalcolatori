@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nginx:
-    image: nginx:latest
+    build: "./containers/nginx"
     ports:
       - "80:80"
     container_name: "nginx"
@@ -18,7 +18,7 @@ services:
       - node3
     
   node1:
-    build: ./containers/node
+    build: "./containers/node"
     container_name: "node1"
     ports:
       - "3000"
@@ -28,7 +28,7 @@ services:
       - INSTANCE=node1
 
   node2:
-    build: ./containers/node
+    build: "./containers/node"
     container_name: "node2"
     ports:
       - "3000"
@@ -38,7 +38,7 @@ services:
       - INSTANCE=node2
 
   node3:
-    build: ./containers/node
+    build: "./containers/node"
     container_name: "node3"
     ports:
       - "3000"

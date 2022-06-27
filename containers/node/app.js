@@ -1,3 +1,5 @@
+const PORT = 3000;
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -36,6 +38,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on http://localhost:${PORT}`)
 });
 
 module.exports = app;
