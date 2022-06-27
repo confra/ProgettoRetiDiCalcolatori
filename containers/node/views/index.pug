@@ -1,5 +1,26 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .hero
+    .form-box
+      .button-box
+        #btn
+        table(border='0')
+          tr
+            td
+              button.toggle-btn(type='button' onclick='login()') Login
+            td
+              button.toggle-btn(type='button' onclick='register()') Registrazione
+      .social-icons
+        img(src='/images/fb_image.png' alt='Logo Facebook')
+        img(src='/images/google_img.png' alt='Logo Google')
+      form#login.input-group
+        input.input-field(type='text' placeholder='Username' required='')
+        input.input-field(type='password' placeholder='Inserisci password' required='')
+        button.submit-btn(type='submit') login
+      form#registrazione.input-group
+        input.input-field(type='text' placeholder='Username' required='')
+        input.input-field(type='email' placeholder='Email' required='')
+        input.input-field(type='password' placeholder='Inserisci password' required='')
+        button.submit-btn(type='submit') Registrazione
+  
