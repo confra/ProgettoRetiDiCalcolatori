@@ -42,7 +42,7 @@ app.get('/google', passport.authenticate('google', { scope: ['profile', 'email']
 
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   //res.redirect('/');
-  res.end('Logged in!');
+  res.redirect('/newspaper');
 })
 
 // catch 404 and forward to error handler

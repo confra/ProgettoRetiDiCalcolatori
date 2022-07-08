@@ -40,6 +40,11 @@ router.post('/', function(req, res, next) {
     });
 });
 
+//GET login
+router.get("/login/", function(req, res, next) {
+  res.render('newspaper');
+})
+
 //POST login
 router.post("/login/", function (req, res, next) {
   db.getUtente(req.body.userreg)

@@ -20,8 +20,20 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:80/google/callback",
   },
-  function(accessToken, refreshToken, profile, cb) {
+  function(accessToken, refreshToken, profile, done) {
     console.log(profile);
-    cb(null, profile);
+    db.getUtente(profile.displayName.toLowerCase().replaceAll(" ", "."))
+        .then(function (user) {
+            console.log("utente già inserito nel db");
+        })
+        .catch(function (err) {
+          var utente = {
+            _id: profile.displayName.toLowerCase().replaceAll(" ", "."),
+            email: profile._json.email,
+            logged_with: 'google',
+          };
+          db.inserisciUtente(utente);
+        });
+      return done(null, profile);
 }
 ));
