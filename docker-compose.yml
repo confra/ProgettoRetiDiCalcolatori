@@ -24,6 +24,9 @@ services:
       - "3000"
     networks:
       - app
+      - db
+    links:
+      - couchdb
     environment: 
       - INSTANCE=node1
 
@@ -34,6 +37,9 @@ services:
       - "3000"
     networks:
       - app
+      - db
+    links:
+      - couchdb
     environment: 
       - INSTANCE=node2
 
@@ -44,9 +50,29 @@ services:
       - "3000"
     networks:
       - app
+      - db
+    links:
+      - couchdb
     environment: 
       - INSTANCE=node3
+  
+  couchdb:
+    build:
+      context: .
+      dockerfile: containers/couchdb/test.Dockerfile
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      - INSTANCE=couchdb
+      - COUCHDB_SERVER=http://couchdb:5984/
+    networks:
+      - db
+    volumes:
+      - ./containers/couchdb/db_data:/opt/couchdb/data:rw
 
 networks:
   app:
+    driver: bridge
+  db:
     driver: bridge

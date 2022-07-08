@@ -12,15 +12,16 @@ block content
             td
               button.toggle-btn(type='button' onclick='register()') Registrazione
       .social-icons
+        a(href='/google')
+          img(src='/images/google_img.png' alt='Logo Google' )
         img(src='/images/fb_image.png' alt='Logo Facebook')
-        img(src='/images/google_img.png' alt='Logo Google')
-      form#login.input-group
-        input.input-field(type='text' placeholder='Username' required='')
-        input.input-field(type='password' placeholder='Inserisci password' required='')
+      form#login.input-group(action='/users/login/' method='post')
+        input.input-field(type='text' placeholder='Username' required='' name='userreg')
+        input.input-field(type='password' placeholder='Inserisci password' required='' name='pswreg')
         button.submit-btn(type='submit') login
-      form#registrazione.input-group
-        input.input-field(type='text' placeholder='Username' required='')
-        input.input-field(type='email' placeholder='Email' required='')
-        input.input-field(type='password' placeholder='Inserisci password' required='')
+      form#registrazione.input-group(action='/users' method='post')
+        input.input-field(type='text' placeholder='Username' required='' name='userreg')
+        input.input-field(type='email' placeholder='Email' required='' name='emailreg')
+        input.input-field(type='password' placeholder='Inserisci password' required='' name='pswreg')
         button.submit-btn(type='submit') Registrazione
   

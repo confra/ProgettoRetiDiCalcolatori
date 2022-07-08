@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
+router.get('/newspaper', function(req, res, next) {
+  res.render('newspaper');
+});
+
 module.exports = router;

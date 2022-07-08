@@ -1,0 +1,17 @@
+GET http://admin:123456@127.0.0.1:5984/_all_dbs
+
+###
+
+PUT http://admin:123456@127.0.0.1:5984/utenti
+content-type: application/json
+
+{
+    "name": "Alessia",
+    "surname": "Angelone"
+}
+
+###
+GET http://admin:123456@127.0.0.1:5984/my_database/1
+
+###
+DELETE http://admin:123456@127.0.0.1:5984/database

@@ -8,10 +8,15 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.1",
     "express": "~4.16.1",
+    "express-session": "^1.17.3",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "nano": "^10.0.0",
     "nodemon": "^2.0.18",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
     "pug": "2.0.0-beta11"
   }
 }

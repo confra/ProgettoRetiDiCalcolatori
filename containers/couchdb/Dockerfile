@@ -1,0 +1,13 @@
+FROM couchdb:latest
+VOLUME ["/opt/couchdb/data"]
+COPY "containers/couchdb/local.ini" "/opt/couchdb/etc/"
+WORKDIR /opt/couchdb
+
+
+EXPOSE 5984
+
+ARG COUCHDB_PASSWORD
+ENV COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+ARG COUCHDB_USER
+ENV COUCHDB_USER=${COUCHDB_USER}
+ENV COUCHDB_CREATE_DATABASES=yes
