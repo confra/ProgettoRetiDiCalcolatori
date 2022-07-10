@@ -24,7 +24,11 @@ services:
       - "3000"
     networks:
       - app
-      - db
+      - db  
+      - amqp
+    depends_on:
+      - rabbitmq
+    
     links:
       - couchdb
     environment: 
@@ -38,6 +42,9 @@ services:
     networks:
       - app
       - db
+      - amqp
+    depends_on:
+      - rabbitmq
     links:
       - couchdb
     environment: 
@@ -51,6 +58,9 @@ services:
     networks:
       - app
       - db
+      - amqp
+    depends_on:
+      - rabbitmq
     links:
       - couchdb
     environment: 
@@ -71,8 +81,24 @@ services:
     volumes:
       - ./containers/couchdb/db_data:/opt/couchdb/data:rw
 
+  nodemailer:
+    build: "./containers/nodemailer"
+    container_name: "nodemailer"
+    networks:
+      - amqp
+    depends_on:
+      - rabbitmq
+  
+  rabbitmq:
+    build: "./containers/rabbitmq"
+    container_name: "rabbitmq"
+    networks:
+      - amqp
+
 networks:
   app:
     driver: bridge
   db:
+    driver: bridge
+  amqp:
     driver: bridge

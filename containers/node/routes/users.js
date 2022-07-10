@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const dotenv = require("dotenv");
+const amqplib = require('amqplib/callback_api');
 
 dotenv.config({ path: "../config/.env" });
 
@@ -38,6 +39,48 @@ router.post('/', function(req, res, next) {
         email: emailreg
       });
     });
+    amqplib.connect('amqp://guest:guest@rabbitmq', (err, connection) => {
+    		if (err) {
+        		console.error(err.stack);
+    		}
+
+    		connection.createChannel((err, channel) => {
+        		if (err) {
+            			console.error(err.stack);
+        		}
+
+			var queue = 'queue';
+	
+      			channel.assertQueue(queue, {
+            		durable: true
+        		}, err => {
+            		if (err) {
+              			console.error(err.stack);
+      				}
+
+            		let sender = (content) => {
+                		let sent = channel.sendToQueue(queue, Buffer.from(JSON.stringify(content)), {
+                    		persistent: true,
+                    		contentType: 'application/json'
+                		});
+            		};
+
+            		let sent = 0;
+            		let sendNext = () => {
+               	 	if (sent >= 1) {
+                    			console.log('All messages sent!');
+                    			return channel.close(() => connection.close());
+                		}
+                		sent++;
+                		sender({
+                    			email: emailreg, username: userreg
+                    		});
+                    		return channel.close(() => connection.close());
+            		};
+            		sendNext();
+        		});
+    		});
+	});
 });
 
 //GET login
