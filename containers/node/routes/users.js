@@ -12,8 +12,8 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/newspaper', function(req, res, next) {
-  res.render('newspaper');
+router.get('/news', function(req, res, next) {
+  res.render('news');
 });
 
 //POST registrazione
@@ -33,7 +33,7 @@ router.post('/', function(req, res, next) {
         password: pswreg
       };
       db.inserisciUtente(utente);
-      res.render("newspaper", {
+      res.render("news", {
         title: "Registrazione Effettuata",
         _id: userreg,
         email: emailreg
@@ -85,7 +85,7 @@ router.post('/', function(req, res, next) {
 
 //GET login
 router.get("/login/", function(req, res, next) {
-  res.render('newspaper');
+  res.render('news');
 })
 
 //POST login
@@ -93,7 +93,7 @@ router.post("/login/", function (req, res, next) {
   db.getUtente(req.body.userreg)
     .then(function (user) {
       // controlla password
-      res.redirect("/newspaper");
+      res.redirect("/news");
     })
     .catch(function (err) {
       console.error(err);

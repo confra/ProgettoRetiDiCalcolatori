@@ -11,6 +11,7 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var newsRouter = require('./routes/news');
 
 var app = express();
 dotenv.config({ path: "./config/.env" });
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/news', newsRouter);
 
 app.use(session({
   resave: false,
@@ -42,7 +44,7 @@ app.get('/google', passport.authenticate('google', { scope: ['profile', 'email']
 
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   //res.redirect('/');
-  res.redirect('/newspaper');
+  res.redirect('/news');
 })
 
 // catch 404 and forward to error handler
