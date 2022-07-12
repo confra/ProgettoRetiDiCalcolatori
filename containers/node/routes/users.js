@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/news', function(req, res, next) {
   if (req.cookies.username) {
-    res.render('news');
+    res.render('news', {user: req.cookies.username});
   }
   return res.render('index');
 });
@@ -96,7 +96,10 @@ router.post('/', function(req, res, next) {
 
 //GET login
 router.get("/login/", function(req, res, next) {
-  res.render('index');
+  if (req.cookies.username) {
+    res.render('news', {user: req.cookies.username});
+  }
+  return res.render('index');
 })
 
 //POST login
@@ -105,7 +108,7 @@ router.post("/login/", function (req, res, next) {
     .then(function (user) {
       // controlla password
       res.cookie("username", user._id);
-      res.redirect("/news");
+      res.render('news', {user: req.cookies.username});
     })
     .catch(function (err) {
       console.error(err);

@@ -110,3 +110,53 @@ label {
 #registrazione{
   left: 450px;
 }
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #333;
+}
+
+.active {
+  background-color: #cb923e;
+}
+
+.a {
+	text-align: center;
+  margin:200px; 
+  padding:10px;
+  font-size: 30px;
+  color: #ffffff;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.button {
+  background-color: #cb923e;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 50px;
+  cursor: pointer;
+}

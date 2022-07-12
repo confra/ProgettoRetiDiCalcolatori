@@ -1,1 +1,15 @@
-h1 news
+extends layout
+
+block content
+  .hero
+    ul
+      li
+        b 
+          a(href='/users/news') Day News
+      li(style='float:right')
+        a.active(href='/users/logout/') Logout
+    .a
+      h1 Benvenuto #{user}
+      h3 Tieniti sempre aggiornato con le notizie in Italia!
+        form(action='/news/main')
+          button.button(type='submit') Primo Piano

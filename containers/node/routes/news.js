@@ -3,6 +3,13 @@ var router = express.Router();
 var request = require("request");
 var my_api_key = "211f82d637df424e94163f662e894a01";
 
+router.get("/", function(req, res, next) {
+	if (req.cookies.username) {
+	  res.render('news', {user: req.cookies.username});
+	}
+	return res.render('index');
+})
+
 router.get("/main", function(expReq, expRes){
 	if (expReq.cookies.username) {
     const userAgent = expReq.get('user-agent');
@@ -51,11 +58,15 @@ router.get("/main", function(expReq, expRes){
 									color: #020801;
 									table-layout:auto;
 								 }
+								 .active {
+									background-color: #e6230e;
+								}
                                  </style>
                                  </head>
                                  <body>
               
                                  <div id='navbar'>
+								   <a class="active" href="/users/news">Day News</a>
                                    <a href="/news/main">Primo piano</a>
                                    <a href="/news/business">Business</a>
                                    <a href="/news/intrattenimento">Intrattenimento</a>
@@ -63,6 +74,7 @@ router.get("/main", function(expReq, expRes){
 								   <a href="/news/scienza">Scienza</a>
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
+								   <a class="active" href="/users/logout">Logout</a>
                                  </div>
 								 
 								 <br>
@@ -165,11 +177,15 @@ router.get("/business", function(expReq, expRes){
 									color: #020801;
 									table-layout:auto;
 								 }
+								 .active {
+									background-color: #e6230e;
+								}
                                  </style>
                                  </head>
                                  <body>
               
                                  <div id='navbar'>
+								   <a class="active" href="/users/news">Day News</a>
 								   <a href="/news/main">Primo piano</a>
 								   <a href="/news/business">Business</a>
 								   <a href="/news/intrattenimento">Intrattenimento</a>
@@ -177,6 +193,7 @@ router.get("/business", function(expReq, expRes){
 								   <a href="/news/scienza">Scienza</a>
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
+								   <a class="active" href="/users/logout">Logout</a>
                                  </div>
 								 
 								 <br>
@@ -278,11 +295,15 @@ router.get("/intrattenimento", function(expReq, expRes){
 									color: #020801;
 									table-layout:auto;
 								 }
+								 .active {
+									background-color: #e6230e;
+								}
                                  </style>
                                  </head>
                                  <body>
               
                                  <div id='navbar'>
+								   <a class="active" href="/users/news">Day News</a>
 								   <a href="/news/main">Primo piano</a>
 								   <a href="/news/business">Business</a>
 								   <a href="/news/intrattenimento">Intrattenimento</a>
@@ -290,6 +311,7 @@ router.get("/intrattenimento", function(expReq, expRes){
 								   <a href="/news/scienza">Scienza</a>
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
+								   <a class="active" href="/users/logout">Logout</a>
                                  </div>
 								 
 								 <br>
@@ -391,11 +413,15 @@ router.get("/salute", function(expReq, expRes){
 									color: #020801;
 									table-layout:auto;
 								 }
+								 .active {
+									background-color: #e6230e;
+								}
                                  </style>
                                  </head>
                                  <body>
               
                                  <div id='navbar'>
+								   <a class="active" href="/users/news">Day News</a>
 								   <a href="/news/main">Primo piano</a>
 								   <a href="/news/business">Business</a>
 								   <a href="/news/intrattenimento">Intrattenimento</a>
@@ -403,6 +429,7 @@ router.get("/salute", function(expReq, expRes){
 								   <a href="/news/scienza">Scienza</a>
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
+								   <a class="active" href="/users/logout">Logout</a>
                                  </div>
 								 
 								 <br>
@@ -504,11 +531,15 @@ router.get("/scienza", function(expReq, expRes){
 									color: #020801;
 									table-layout:auto;
 								 }
+								 .active {
+									background-color: #e6230e;
+								}
                                  </style>
                                  </head>
                                  <body>
               
                                  <div id='navbar'>
+								   <a class="active" href="/users/news">Day News</a>
 								   <a href="/news/main">Primo piano</a>
 								   <a href="/news/business">Business</a>
 								   <a href="/news/intrattenimento">Intrattenimento</a>
@@ -516,6 +547,7 @@ router.get("/scienza", function(expReq, expRes){
 								   <a href="/news/scienza">Scienza</a>
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
+								   <a class="active" href="/users/logout">Logout</a>
                                  </div>
 								 
 								 <br>
@@ -617,11 +649,15 @@ router.get("/sport", function(expReq, expRes){
 									color: #020801;
 									table-layout:auto;
 								 }
+								 .active {
+									background-color: #e6230e;
+								}
                                  </style>
                                  </head>
                                  <body>
               
                                  <div id='navbar'>
+								   <a class="active" href="/users/news">Day News</a>
 								   <a href="/news/main">Primo piano</a>
 								   <a href="/news/business">Business</a>
 								   <a href="/news/intrattenimento">Intrattenimento</a>
@@ -629,6 +665,7 @@ router.get("/sport", function(expReq, expRes){
 								   <a href="/news/scienza">Scienza</a>
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
+								   <a class="active" href="/users/logout">Logout</a>
                                  </div>
 								 
 								 <br>
@@ -730,11 +767,15 @@ router.get("/tecnologia", function(expReq, expRes){
 									color: #020801;
 									table-layout:auto;
 								 }
+								 .active {
+									background-color: #e6230e;
+								}
                                  </style>
                                  </head>
                                  <body>
               
                                  <div id='navbar'>
+								   <a class="active" href="/users/news">Day News</a>
 								   <a href="/news/main">Primo piano</a>
 								   <a href="/news/business">Business</a>
 								   <a href="/news/intrattenimento">Intrattenimento</a>
@@ -742,6 +783,7 @@ router.get("/tecnologia", function(expReq, expRes){
 								   <a href="/news/scienza">Scienza</a>
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
+								   <a class="active" href="/users/logout">Logout</a>
                                  </div>
 								 
 								 <br>
