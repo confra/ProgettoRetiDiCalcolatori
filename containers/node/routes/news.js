@@ -4,6 +4,7 @@ var request = require("request");
 var my_api_key = "211f82d637df424e94163f662e894a01";
 
 router.get("/main", function(expReq, expRes){
+	if (expReq.cookies.username) {
     const userAgent = expReq.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?sources=google-news-it&apiKey=211f82d637df424e94163f662e894a01",
@@ -110,10 +111,14 @@ router.get("/main", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
+							} else{
+								return expRes.render('index');
+							}
 
 });
 
 router.get("/business", function(expReq, expRes){
+	if (expReq.cookies.username) {
 	const userAgent = expReq.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=business&apiKey=211f82d637df424e94163f662e894a01",
@@ -220,9 +225,13 @@ router.get("/business", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
+							} else{
+								return expRes.render('index');
+							}
 });
 
 router.get("/intrattenimento", function(expReq, expRes){
+	if (expReq.cookies.username) {
 	const userAgent = expReq.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=entertainment&apiKey=211f82d637df424e94163f662e894a01",
@@ -329,9 +338,13 @@ router.get("/intrattenimento", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
+							} else{
+								return expRes.render('index');
+							}
 });
 
 router.get("/salute", function(expReq, expRes){
+	if (expReq.cookies.username) {
 	const userAgent = expReq.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=health&apiKey=211f82d637df424e94163f662e894a01",
@@ -438,9 +451,13 @@ router.get("/salute", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
+							} else{
+								return expRes.render('index');
+							}
 });
 
 router.get("/scienza", function(expReq, expRes){
+	if (expReq.cookies.username) {
 	const userAgent = expReq.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=science&apiKey=211f82d637df424e94163f662e894a01",
@@ -547,9 +564,13 @@ router.get("/scienza", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
+							} else{
+								return expRes.render('index');
+							}
 });
 
 router.get("/sport", function(expReq, expRes){
+	if (expReq.cookies.username) {
 	const userAgent = expReq.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=sports&apiKey=211f82d637df424e94163f662e894a01",
@@ -656,9 +677,13 @@ router.get("/sport", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
+							} else{
+								return expRes.render('index');
+							}
 });
 
 router.get("/tecnologia", function(expReq, expRes){
+	if (expReq.cookies.username) {
 	const userAgent = expReq.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=technology&apiKey=211f82d637df424e94163f662e894a01",
@@ -765,6 +790,9 @@ router.get("/tecnologia", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
+							} else{
+								return expRes.render('index');
+							}
 });
 
 module.exports = router;

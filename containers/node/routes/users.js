@@ -3,17 +3,28 @@ var router = express.Router();
 const dotenv = require("dotenv");
 const amqplib = require('amqplib/callback_api');
 
+const session = require('express-session');
+router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+var cookieParser = require('cookie-parser');
+router.use(cookieParser());
+
 dotenv.config({ path: "../config/.env" });
 
 var db = require("../db");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  if (req.cookies.username) {
+    return res.send('respond with a resource');
+  }
+  return res.render('index');
 });
 
 router.get('/news', function(req, res, next) {
-  res.render('news');
+  if (req.cookies.username) {
+    res.render('news');
+  }
+  return res.render('index');
 });
 
 //POST registrazione
@@ -85,7 +96,7 @@ router.post('/', function(req, res, next) {
 
 //GET login
 router.get("/login/", function(req, res, next) {
-  res.render('news');
+  res.render('index');
 })
 
 //POST login
@@ -93,6 +104,7 @@ router.post("/login/", function (req, res, next) {
   db.getUtente(req.body.userreg)
     .then(function (user) {
       // controlla password
+      res.cookie("username", user._id);
       res.redirect("/news");
     })
     .catch(function (err) {
@@ -102,6 +114,12 @@ router.post("/login/", function (req, res, next) {
         notRegistered: true,
       });
     });
+});
+
+/* GET logout. */
+router.get("/logout/", function (req, res, next) {
+  res.clearCookie("username");
+  res.redirect("/");
 });
 
 module.exports = router;

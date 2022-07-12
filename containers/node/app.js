@@ -30,10 +30,14 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/news', newsRouter);
 
-app.use(session({
-  resave: false,
-  saveUninitialized: true,
-  secret: 'ciao' 
+app.use(session(
+  {
+   secret: "secretsession",
+   resave: false, 
+   saveUninitialized: true,
+   cookie: { 
+    maxAge: 600000
+  }
 }));
 
 app.use(passport.initialize());
@@ -44,6 +48,7 @@ app.get('/google', passport.authenticate('google', { scope: ['profile', 'email']
 
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   //res.redirect('/');
+  res.cookie("username", req.user.displayName.toLowerCase().replaceAll(" ","."));
   res.redirect('/news');
 })
 
