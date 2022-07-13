@@ -49,7 +49,7 @@ app.get('/google', passport.authenticate('google', { scope: ['profile', 'email']
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   //res.redirect('/');
   res.cookie("username", req.user.displayName.toLowerCase().replaceAll(" ","."));
-  res.redirect('/news');
+  res.redirect('/users/news');
 })
 
 // catch 404 and forward to error handler

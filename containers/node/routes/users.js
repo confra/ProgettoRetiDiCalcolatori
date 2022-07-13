@@ -108,7 +108,7 @@ router.post("/login/", function (req, res, next) {
     .then(function (user) {
       // controlla password
       res.cookie("username", user._id);
-      res.render('news', {user: req.cookies.username});
+      res.redirect('/users/news');
     })
     .catch(function (err) {
       console.error(err);
