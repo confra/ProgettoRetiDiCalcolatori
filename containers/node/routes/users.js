@@ -44,7 +44,7 @@ router.post('/', function(req, res, next) {
         password: pswreg
       };
       db.inserisciUtente(utente);
-      res.render("news", {
+      res.render("index", {
         title: "Registrazione Effettuata",
         _id: userreg,
         email: emailreg
