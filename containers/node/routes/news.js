@@ -3,6 +3,66 @@ var router = express.Router();
 var request = require("request");
 var my_api_key = "211f82d637df424e94163f662e894a01";
 
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config/oauth.env" });
+
+const { google } = require('googleapis');
+const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
+const calendarId = process.env.CALENDAR_ID;
+
+const SCOPES = 'https://www.googleapis.com/auth/calendar';
+const calendar = google.calendar({version: "v3"});
+
+const auth = new google.auth.JWT(
+  CREDENTIALS.client_email,
+  null,
+  CREDENTIALS.private_key,
+  SCOPES
+)
+
+// Your TIMEOFFSET Offset
+const TIMEOFFSET = '+05:30';
+
+// Get date-time string for calender
+const dateTimeForCalander = (date) => {
+
+    ciao = date.substring(0,19);
+    console.log(ciao);
+
+    let newDateTime = `${ciao}.000${TIMEOFFSET}`;
+
+    let event = new Date(Date.parse(newDateTime));
+
+    let startDate = event;
+    // Delay in end time is 1
+    let endDate = new Date(new Date(startDate).setHours(startDate.getHours()+1));
+
+    return {
+        'start': startDate,
+        'end': endDate
+    }
+};
+
+const insertEvent = async (event) => {
+
+    try {
+        let response = await calendar.events.insert({
+            auth: auth,
+            calendarId: calendarId,
+            resource: event
+        });
+    
+        if (response['status'] == 200 && response['statusText'] === 'OK') {
+            return 1;
+        } else {
+            return 0;
+        }
+    } catch (error) {
+        console.log(`Error at insertEvent --> ${error}`);
+        return 0;
+    }
+};
+
 router.get("/", function(req, res, next) {
 	if (req.cookies.username) {
 	  res.render('news', {user: req.cookies.username});
@@ -118,6 +178,30 @@ router.get("/main", function(expReq, expRes){
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
 									                 </tr>`
+
+													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
+
+													 // Event for Google Calendar
+													 let event = {
+														 'summary': `Primo Piano: ${data[rec].title}`,
+														 'description': `${data[rec].description}`,
+														 'start': {
+															 'dateTime': dateTime['start'],
+															 'timeZone': 'Asia/Kolkata'
+														 },
+														 'end': {
+															 'dateTime': dateTime['end'],
+															 'timeZone': 'Asia/Kolkata'
+														 }
+													 };
+													 
+													 insertEvent(event)
+													   .then((res) => {
+														 console.log(res);
+													   })
+													   .catch((err) => {
+														 console.log(err);
+													 });
  								 }
 
  								 finalResponse += `</tbody></table></body></html>`;
@@ -237,6 +321,30 @@ router.get("/business", function(expReq, expRes){
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
 									                 </tr>`
+
+													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
+
+													 // Event for Google Calendar
+													 let event = {
+														 'summary': `Business: ${data[rec].title}`,
+														 'description': `${data[rec].description}`,
+														 'start': {
+															 'dateTime': dateTime['start'],
+															 'timeZone': 'Asia/Kolkata'
+														 },
+														 'end': {
+															 'dateTime': dateTime['end'],
+															 'timeZone': 'Asia/Kolkata'
+														 }
+													 };
+													 
+													 insertEvent(event)
+													   .then((res) => {
+														 console.log(res);
+													   })
+													   .catch((err) => {
+														 console.log(err);
+													 });
  								 }
 
  								 finalResponse += `</tbody></table></body></html>`;
@@ -355,6 +463,30 @@ router.get("/intrattenimento", function(expReq, expRes){
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
 									                 </tr>`
+
+													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
+
+													 // Event for Google Calendar
+													 let event = {
+														 'summary': `Intrattenimento: ${data[rec].title}`,
+														 'description': `${data[rec].description}`,
+														 'start': {
+															 'dateTime': dateTime['start'],
+															 'timeZone': 'Asia/Kolkata'
+														 },
+														 'end': {
+															 'dateTime': dateTime['end'],
+															 'timeZone': 'Asia/Kolkata'
+														 }
+													 };
+													 
+													 insertEvent(event)
+													   .then((res) => {
+														 console.log(res);
+													   })
+													   .catch((err) => {
+														 console.log(err);
+													 });
  								 }
 
  								 finalResponse += `</tbody></table></body></html>`;
@@ -473,6 +605,30 @@ router.get("/salute", function(expReq, expRes){
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
 									                 </tr>`
+
+													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
+
+													 // Event for Google Calendar
+													 let event = {
+														 'summary': `Salute: ${data[rec].title}`,
+														 'description': `${data[rec].description}`,
+														 'start': {
+															 'dateTime': dateTime['start'],
+															 'timeZone': 'Asia/Kolkata'
+														 },
+														 'end': {
+															 'dateTime': dateTime['end'],
+															 'timeZone': 'Asia/Kolkata'
+														 }
+													 };
+													 
+													 insertEvent(event)
+													   .then((res) => {
+														 console.log(res);
+													   })
+													   .catch((err) => {
+														 console.log(err);
+													 });
  								 }
 
  								 finalResponse += `</tbody></table></body></html>`;
@@ -591,6 +747,30 @@ router.get("/scienza", function(expReq, expRes){
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
 									                 </tr>`
+
+													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
+
+													 // Event for Google Calendar
+													 let event = {
+														 'summary': `Scienza: ${data[rec].title}`,
+														 'description': `${data[rec].description}`,
+														 'start': {
+															 'dateTime': dateTime['start'],
+															 'timeZone': 'Asia/Kolkata'
+														 },
+														 'end': {
+															 'dateTime': dateTime['end'],
+															 'timeZone': 'Asia/Kolkata'
+														 }
+													 };
+													 
+													 insertEvent(event)
+													   .then((res) => {
+														 console.log(res);
+													   })
+													   .catch((err) => {
+														 console.log(err);
+													 });
  								 }
 
  								 finalResponse += `</tbody></table></body></html>`;
@@ -709,6 +889,30 @@ router.get("/sport", function(expReq, expRes){
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
 									                 </tr>`
+
+													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
+
+													 // Event for Google Calendar
+													 let event = {
+														 'summary': `Sport: ${data[rec].title}`,
+														 'description': `${data[rec].description}`,
+														 'start': {
+															 'dateTime': dateTime['start'],
+															 'timeZone': 'Asia/Kolkata'
+														 },
+														 'end': {
+															 'dateTime': dateTime['end'],
+															 'timeZone': 'Asia/Kolkata'
+														 }
+													 };
+													 
+													 insertEvent(event)
+													   .then((res) => {
+														 console.log(res);
+													   })
+													   .catch((err) => {
+														 console.log(err);
+													 });
  								 }
 
  								 finalResponse += `</tbody></table></body></html>`;
@@ -827,6 +1031,30 @@ router.get("/tecnologia", function(expReq, expRes){
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
 									                 </tr>`
+
+													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
+
+													 // Event for Google Calendar
+													 let event = {
+														 'summary': `Tecnologia: ${data[rec].title}`,
+														 'description': `${data[rec].description}`,
+														 'start': {
+															 'dateTime': dateTime['start'],
+															 'timeZone': 'Asia/Kolkata'
+														 },
+														 'end': {
+															 'dateTime': dateTime['end'],
+															 'timeZone': 'Asia/Kolkata'
+														 }
+													 };
+													 
+													 insertEvent(event)
+													   .then((res) => {
+														 console.log(res);
+													   })
+													   .catch((err) => {
+														 console.log(err);
+													 });
  								 }
 
  								 finalResponse += `</tbody></table></body></html>`;
