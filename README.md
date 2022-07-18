@@ -4,7 +4,7 @@ Il nostro progetto consiste in un portale in cui vengono raccolte notizie in con
 Una volta effettuato il login l'utente può leggere le varie notizie e inoltre lasciare un commento riguardante l'articolo d'interesse.
 
 # STRUTTURA DELL'APPLICAZIONE
-![Struttura Applicazione](./StrutturaProgetto)
+![Struttura Applicazione](./StrutturaProgetto.png)
 
 # REQUISITI E TECNOLOGIE USATE 
  - L'applicazione utilizza Docker per la containerizzazione delle varie componenti e Docker Compose per l'orchestrazione delle stesse.
