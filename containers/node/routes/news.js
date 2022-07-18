@@ -147,7 +147,7 @@ router.get("/main", function(req, expRes){
 									                   <td align=center>${data[rec].content}</td>
 													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
                                                              <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
-                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="50"></p><br>
                                                              <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
                                                              <p><input name="invia" type="submit"></p>
                                                            </form> 
@@ -277,7 +277,7 @@ router.get("/business", function(req, expRes){
 									                   <td align=center>${data[rec].content}</td>
 													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
                                                              <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
-                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="50"></p><br>
                                                              <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
                                                              <p><input name="invia" type="submit"></p>
                                                            </form> 
@@ -406,7 +406,7 @@ router.get("/intrattenimento", function(req, expRes){
 									                   <td align=center>${data[rec].content}</td>
 													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
                                                              <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
-                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="50"></p><br>
                                                              <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
                                                              <p><input name="invia" type="submit"></p>
                                                            </form> 
@@ -535,7 +535,7 @@ router.get("/salute", function(req, expRes){
 									                   <td align=center>${data[rec].content}</td>
 													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
                                                              <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
-                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="50"></p><br>
                                                              <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
                                                              <p><input name="invia" type="submit"></p>
                                                            </form> 
@@ -664,7 +664,7 @@ router.get("/scienza", function(req, expRes){
 									                   <td align=center>${data[rec].content}</td>
 													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
                                                              <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
-                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="50"></p><br>
                                                              <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
                                                              <p><input name="invia" type="submit"></p>
                                                            </form> 
@@ -793,7 +793,7 @@ router.get("/sport", function(req, expRes){
 									                   <td align=center>${data[rec].content}</td>
 													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
                                                              <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
-                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="50"></p><br>
                                                              <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
                                                              <p><input name="invia" type="submit"></p>
                                                            </form> 
@@ -922,7 +922,7 @@ router.get("/tecnologia", function(req, expRes){
 									                   <td align=center>${data[rec].content}</td>
 													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
                                                              <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
-                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="50"></p><br>
                                                              <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
                                                              <p><input name="invia" type="submit"></p>
                                                            </form> 

@@ -58,11 +58,7 @@
 }
 
 .social-icons img {
-  width: 35px;
-  margin: 0 12px;
-  box-shadow: 0 0 20px 0 #7f7f7f3d;
-  cursor: pointer;
-  border-radius: 50%;
+  width: 180px;
 }
 
 .input-group {
