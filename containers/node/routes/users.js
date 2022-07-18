@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const dotenv = require("dotenv");
 const amqplib = require('amqplib/callback_api');
+var crypto = require('crypto');
 
 const session = require('express-session');
 router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
@@ -30,6 +31,10 @@ router.get('/news', function(req, res, next) {
 //POST registrazione
 router.post('/', function(req, res, next) {
   const { userreg, emailreg, pswreg } = req.body;
+  var passwordHashed = crypto
+  .createHash("md5")
+  .update(pswreg)
+  .digest("hex");
   db.getUtente(userreg)
     .then(function () {
       res.render("index", {
@@ -41,7 +46,7 @@ router.post('/', function(req, res, next) {
       var utente = {
         _id: userreg,
         email: emailreg,
-        password: pswreg
+        password: passwordHashed
       };
       db.inserisciUtente(utente);
       res.render("index", {

@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var request = require("request");
-var my_api_key = "211f82d637df424e94163f662e894a01";
 
 const session = require('express-session');
 router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
