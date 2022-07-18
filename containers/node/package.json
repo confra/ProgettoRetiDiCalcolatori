@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha ./test"
   },
   "dependencies": {
     "amqplib": "^0.10.0",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.1",
@@ -14,13 +17,14 @@
     "express-session": "^1.17.3",
     "googleapis": "^105.0.0",
     "http-errors": "~1.6.3",
+    "mocha": "^6.2.3",
     "morgan": "~1.9.1",
     "nano": "^10.0.0",
     "nodemailer": "^6.7.7",
-    "nodemon": "^2.0.18",
+    "nodemon": "^1.4.1",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
-    "pug": "2.0.0-beta11",
+    "pug": "^3.0.2",
     "request": "^2.88.2"
   }
 }
