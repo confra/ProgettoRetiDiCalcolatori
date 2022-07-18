@@ -50,4 +50,8 @@ function getUtente(id){
     return getDOC("utenti", id);
 }
 
-module.exports = { inserisciUtente, getUtente }
+function inserisciCommento(JSON_commento){
+    insertDOC("commenti", JSON_commento);
+}
+
+module.exports = { inserisciUtente, getUtente, inserisciCommento }

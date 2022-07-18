@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  form(name='invio_dati' action='/news/commento/main' method='post')
+    p
+      input(name='mail' placeholder='Email')
+    p
+      input(name='articolo' placeholder='Titolo articolo')
+    p
+      textarea(name='messaggio' rows='5' cols='50' placeholder='inserisci un commento')
+    p 
+      input(name='invia' type='submit')

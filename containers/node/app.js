@@ -12,6 +12,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var newsRouter = require('./routes/news');
+var commentiRouter = require('./routes/commenti');
 
 var app = express();
 dotenv.config({ path: "./config/.env" });
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/news', newsRouter);
+app.use('/commenti', commentiRouter);
 
 app.use(session(
   {

@@ -3,8 +3,15 @@ var router = express.Router();
 var request = require("request");
 var my_api_key = "211f82d637df424e94163f662e894a01";
 
+const session = require('express-session');
+router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+var cookieParser = require('cookie-parser');
+router.use(cookieParser());
+
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config/oauth.env" });
+
+var commenti = require("./commenti");
 
 const { google } = require('googleapis');
 const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
@@ -12,6 +19,27 @@ const calendarId = process.env.CALENDAR_ID;
 
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 const calendar = google.calendar({version: "v3"});
+
+var db = require("../db");
+
+
+
+router.post('/commento/main', function(req, res, next) {
+	const { articolo, messaggio, mail } = req.body;
+	var commento = {
+        _id: messaggio,
+        email: mail,
+        articolo: articolo
+      };
+      db.inserisciCommento(commento);
+	  res.redirect('/news/main');
+});
+
+
+
+router.get('/commento/main', function(req, res, next) {
+	res.redirect('/news/main');
+});
 
 const auth = new google.auth.JWT(
   CREDENTIALS.client_email,
@@ -70,9 +98,9 @@ router.get("/", function(req, res, next) {
 	return res.render('index');
 })
 
-router.get("/main", function(expReq, expRes){
-	if (expReq.cookies.username) {
-    const userAgent = expReq.get('user-agent');
+router.get("/main", function(req, expRes){
+	if (req.cookies.username) {
+    const userAgent = req.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?sources=google-news-it&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
@@ -135,6 +163,7 @@ router.get("/main", function(expReq, expRes){
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
 								   <a class="active" href="/users/logout">Logout</a>
+								   <a class="active" href="/commenti/lista_commenti">Accedi ai commenti</a>
                                  </div>
 								 
 								 <br>
@@ -162,6 +191,9 @@ router.get("/main", function(expReq, expRes){
 	  							     <th>
 	  							       Contenuto
 	  							     </th>
+									 <th>
+									   Commento
+									 </th>
 								   </thead><tbody>`
 
 								 data = data.articles;
@@ -177,6 +209,13 @@ router.get("/main", function(expReq, expRes){
 													   <td align=center>${data[rec].author}</td>
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
+													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
+                                                             <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
+                                                             <p><input name="invia" type="submit"></p>
+                                                           </form> 
+													   </td>
 									                 </tr>`
 
 													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
@@ -207,15 +246,15 @@ router.get("/main", function(expReq, expRes){
  								 finalResponse += `</tbody></table></body></html>`;
  								 expRes.send(finalResponse);
  								});
-							} else{
-								return expRes.render('index');
-							}
+	} else{
+		return expRes.render('index');
+	}
 
 });
 
-router.get("/business", function(expReq, expRes){
-	if (expReq.cookies.username) {
-	const userAgent = expReq.get('user-agent');
+router.get("/business", function(req, expRes){
+	if (req.cookies.username) {
+	const userAgent = req.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=business&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
@@ -278,6 +317,7 @@ router.get("/business", function(expReq, expRes){
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
 								   <a class="active" href="/users/logout">Logout</a>
+								   <a class="active" href="/commenti/lista_commenti">Accedi ai commenti</a>
                                  </div>
 								 
 								 <br>
@@ -305,6 +345,9 @@ router.get("/business", function(expReq, expRes){
 	  							     <th>
 	  							       Contenuto
 	  							     </th>
+									 <th>
+									   Commento
+									 </th>
 								   </thead><tbody>`
 
 								 data = data.articles;
@@ -320,8 +363,14 @@ router.get("/business", function(expReq, expRes){
 													   <td align=center>${data[rec].author}</td>
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
+													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
+                                                             <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
+                                                             <p><input name="invia" type="submit"></p>
+                                                           </form> 
+													   </td>
 									                 </tr>`
-
 													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
 
 													 // Event for Google Calendar
@@ -355,9 +404,9 @@ router.get("/business", function(expReq, expRes){
 							}
 });
 
-router.get("/intrattenimento", function(expReq, expRes){
-	if (expReq.cookies.username) {
-	const userAgent = expReq.get('user-agent');
+router.get("/intrattenimento", function(req, expRes){
+	if (req.cookies.username) {
+	const userAgent = req.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=entertainment&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
@@ -420,6 +469,7 @@ router.get("/intrattenimento", function(expReq, expRes){
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
 								   <a class="active" href="/users/logout">Logout</a>
+								   <a class="active" href="/commenti/lista_commenti">Accedi ai commenti</a>
                                  </div>
 								 
 								 <br>
@@ -447,6 +497,9 @@ router.get("/intrattenimento", function(expReq, expRes){
 	  							     <th>
 	  							       Contenuto
 	  							     </th>
+									 <th>
+									   Commento
+									 </th>
 								   </thead><tbody>`
 
 								 data = data.articles;
@@ -462,8 +515,14 @@ router.get("/intrattenimento", function(expReq, expRes){
 													   <td align=center>${data[rec].author}</td>
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
+													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
+                                                             <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
+                                                             <p><input name="invia" type="submit"></p>
+                                                           </form> 
+													   </td>
 									                 </tr>`
-
 													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
 
 													 // Event for Google Calendar
@@ -497,9 +556,9 @@ router.get("/intrattenimento", function(expReq, expRes){
 							}
 });
 
-router.get("/salute", function(expReq, expRes){
-	if (expReq.cookies.username) {
-	const userAgent = expReq.get('user-agent');
+router.get("/salute", function(req, expRes){
+	if (req.cookies.username) {
+	const userAgent = req.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=health&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
@@ -562,6 +621,7 @@ router.get("/salute", function(expReq, expRes){
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
 								   <a class="active" href="/users/logout">Logout</a>
+								   <a class="active" href="/commenti/lista_commenti">Accedi ai commenti</a>
                                  </div>
 								 
 								 <br>
@@ -589,6 +649,9 @@ router.get("/salute", function(expReq, expRes){
 	  							     <th>
 	  							       Contenuto
 	  							     </th>
+									 <th>
+									   Commento
+									 </th>
 								   </thead><tbody>`
 
 								 data = data.articles;
@@ -604,8 +667,14 @@ router.get("/salute", function(expReq, expRes){
 													   <td align=center>${data[rec].author}</td>
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
+													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
+                                                             <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
+                                                             <p><input name="invia" type="submit"></p>
+                                                           </form> 
+													   </td>
 									                 </tr>`
-
 													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
 
 													 // Event for Google Calendar
@@ -639,9 +708,9 @@ router.get("/salute", function(expReq, expRes){
 							}
 });
 
-router.get("/scienza", function(expReq, expRes){
-	if (expReq.cookies.username) {
-	const userAgent = expReq.get('user-agent');
+router.get("/scienza", function(req, expRes){
+	if (req.cookies.username) {
+	const userAgent = req.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=science&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
@@ -704,6 +773,7 @@ router.get("/scienza", function(expReq, expRes){
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
 								   <a class="active" href="/users/logout">Logout</a>
+								   <a class="active" href="/commenti/lista_commenti">Accedi ai commenti</a>
                                  </div>
 								 
 								 <br>
@@ -731,6 +801,9 @@ router.get("/scienza", function(expReq, expRes){
 	  							     <th>
 	  							       Contenuto
 	  							     </th>
+									 <th>
+									   Commento
+									 </th>
 								   </thead><tbody>`
 
 								 data = data.articles;
@@ -746,8 +819,14 @@ router.get("/scienza", function(expReq, expRes){
 													   <td align=center>${data[rec].author}</td>
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
+													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
+                                                             <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
+                                                             <p><input name="invia" type="submit"></p>
+                                                           </form> 
+													   </td>
 									                 </tr>`
-
 													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
 
 													 // Event for Google Calendar
@@ -781,9 +860,9 @@ router.get("/scienza", function(expReq, expRes){
 							}
 });
 
-router.get("/sport", function(expReq, expRes){
-	if (expReq.cookies.username) {
-	const userAgent = expReq.get('user-agent');
+router.get("/sport", function(req, expRes){
+	if (req.cookies.username) {
+	const userAgent = req.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=sports&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
@@ -846,6 +925,7 @@ router.get("/sport", function(expReq, expRes){
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
 								   <a class="active" href="/users/logout">Logout</a>
+								   <a class="active" href="/commenti/lista_commenti">Accedi ai commenti</a>
                                  </div>
 								 
 								 <br>
@@ -873,6 +953,9 @@ router.get("/sport", function(expReq, expRes){
 	  							     <th>
 	  							       Contenuto
 	  							     </th>
+									 <th>
+									   Commento
+									 </th>
 								   </thead><tbody>`
 
 								 data = data.articles;
@@ -888,8 +971,14 @@ router.get("/sport", function(expReq, expRes){
 													   <td align=center>${data[rec].author}</td>
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
+													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
+                                                             <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
+                                                             <p><input name="invia" type="submit"></p>
+                                                           </form> 
+													   </td>
 									                 </tr>`
-
 													 let dateTime = dateTimeForCalander(data[rec].publishedAt);
 
 													 // Event for Google Calendar
@@ -923,9 +1012,9 @@ router.get("/sport", function(expReq, expRes){
 							}
 });
 
-router.get("/tecnologia", function(expReq, expRes){
-	if (expReq.cookies.username) {
-	const userAgent = expReq.get('user-agent');
+router.get("/tecnologia", function(req, expRes){
+	if (req.cookies.username) {
+	const userAgent = req.get('user-agent');
 	request({
 		uri: "https://newsapi.org/v2/top-headlines?country=it&category=technology&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
@@ -988,6 +1077,7 @@ router.get("/tecnologia", function(expReq, expRes){
 								   <a href="/news/sport">Sport</a>
 								   <a href="/news/tecnologia">Tecnologia</a>
 								   <a class="active" href="/users/logout">Logout</a>
+								   <a class="active" href="/commenti/lista_commenti">Accedi ai commenti</a>
                                  </div>
 								 
 								 <br>
@@ -1015,6 +1105,9 @@ router.get("/tecnologia", function(expReq, expRes){
 	  							     <th>
 	  							       Contenuto
 	  							     </th>
+									 <th>
+									   Commento
+									 </th>
 								   </thead><tbody>`
 
 								 data = data.articles;
@@ -1030,6 +1123,13 @@ router.get("/tecnologia", function(expReq, expRes){
 													   <td align=center>${data[rec].author}</td>
 									                   <td align=center>${data[rec].publishedAt}</td>
 									                   <td align=center>${data[rec].content}</td>
+													   <td align=center><form name="invio_dati" action="/news/commento/main" method="post">
+                                                             <p><input type="text" name="mail" value=${req.cookies.username} readonly size="50"></p><br>
+                                                             <p><input type="text" name="articolo" value=${data[rec].url} readonly  size="100"></p><br>
+                                                             <p><textarea name="messaggio" rows="5" cols="50" placeholder="inserisci un commento"></textarea></p><br>
+                                                             <p><input name="invia" type="submit"></p>
+                                                           </form> 
+													   </td>
 									                 </tr>`
 
 													 let dateTime = dateTimeForCalander(data[rec].publishedAt);

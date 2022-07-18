@@ -1,8 +1,10 @@
 GET http://admin:123456@127.0.0.1:5984/_all_dbs
 
 ###
+GET http://admin:123456@127.0.0.1:5984/utenti/_all_docs
 
-PUT http://admin:123456@127.0.0.1:5984/utenti
+###
+PUT http://admin:123456@127.0.0.1:5984/commenti
 content-type: application/json
 
 {
@@ -11,7 +13,14 @@ content-type: application/json
 }
 
 ###
-GET http://admin:123456@127.0.0.1:5984/my_database/1
+POST http://admin:123456@127.0.0.1:5984/utenti/_view/all
+content-type: application/json
 
 ###
-DELETE http://admin:123456@127.0.0.1:5984/database
+PUT http://admin:123456@127.0.0.1:5984/primopiano
+
+###
+GET http://admin:123456@127.0.0.1:5984/primopiano
+
+###
+DELETE http://admin:123456@127.0.0.1:5984/primopiano
