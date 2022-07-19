@@ -72,7 +72,7 @@
  *
  * @apiParam user Username dell'utente a cui siamo interessati
  * @apiParamExample {text} Esempio-Richiesta:
- *      https://localhost/api/classifica/ale
+ *      https://localhost/commenti/lista_commenti/ale
  * @apiSuccess {String} use Username utente a cui siamo interessati
  * @apiSuccess {String} notizia URL della notizia relativa al commento
  * @apiSuccess {String} messaggio Commento dell'utente

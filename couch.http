@@ -7,7 +7,7 @@ GET http://admin:123456@127.0.0.1:5984/utenti/_all_docs
 GET http://admin:123456@127.0.0.1:5984/commenti/_design/all/_view/_viewù
 
 ###
-GET https://localhost/commenti/lista_commenti/ale
+GET https://localhost:443/commenti/lista_commenti/ale
 
 ###
 PUT http://admin:123456@127.0.0.1:5984/commenti

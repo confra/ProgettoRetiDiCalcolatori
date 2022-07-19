@@ -21,6 +21,7 @@
     "mocha": "^6.2.3",
     "morgan": "~1.9.1",
     "nano": "^10.0.0",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.7.7",
     "nodemon": "^1.4.1",
     "passport": "^0.6.0",

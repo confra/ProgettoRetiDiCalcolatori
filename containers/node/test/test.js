@@ -1,57 +1,50 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const describe = require('mocha').describe;
-const it = require('mocha').it;
+const expect = require("chai").expect;
+const fetch = require("node-fetch");
 
-
-
-const app = require('../app');
-
-
-chai.use(chaiHttp);
-chai.should();
-
-describe('Test dell\'applicazione', () => {
-	it('/dovrebbe restituire 200 OK con un body', (done) => {
-		chai.request(app)
-			.get('/')
-			.end((err, res) => {
-				res.should.have.status(200);
-				res.should.have.property('body');
-				done();
-			});
+describe("GET /", () => {
+	it("send GET request to http://localhost/", async () => {
+	  await fetch("http://localhost/")
+		.then((result) => {
+		  expect(result.status).to.equal(200);
+		})
+		.catch((err) => {
+		  console.error(err.message);
+		});
 	});
+  });
+
+  describe("GET /commenti/lista_commenti/ahahhahshsgdggdhfhfhfh", () => {
+	it("send GET request to http://localhost/commenti/lista_commenti/ahahhahshsgdggdhfhfhfh", async () => {
+	  await fetch("http://localhost/commenti/lista_commenti/ahahhahshsgdggdhfhfhfh")
+		.then((result) => {
+		  expect(result.status).to.equal(200);
+		})
+		.catch((err) => {
+		  console.error(err.message);
+		});
+	});
+  });
+
+describe("GET /commenti/lista_commenti", () => {
+  it("send GET request to http://localhost/commenti/lista_commenti", async () => {
+    await fetch("http://localhost/commenti/lista_commenti")
+      .then((result) => {
+        expect(result.status).to.equal(200);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  });
 });
 
-describe('Test delle api del sito', () => {
-	it('Endpoint /api dovrebbe restituire 200 OK con body che indica la mancanza di un attributo', (done) => {
-		chai.request(app)
-			.get('/lista_commenti')
-			.end((err, res) => {
-				res.should.have.property('body');
-				done();
-			});
-	});
-
-	it('Endpoint dovrebbe restituire 200 OK specifcando che non esiste nessun utente quell username che ha commentato', (done) => {
-		chai.request(app)
-			.get('/lista_commenti/ahahhahshsgdggdhfhfhfh')
-			.end((err, res) => {
-				res.should.have.property('body');
-				done();
-			});
-	});
-
-
-
-    
-    it('Endpoint dovrebbe restituire 200 OK con body nel quale è presente un file json contenente i commenti', (done) => {
-		chai.request(app)
-			.get('/lista_commenti/alessia.angelone')
-			.end((err, res) => {
-				res.should.have.property('body');
-				done();
-			});
-	});
-
+describe("GET /commenti/lista_commenti/alessia.angelone", () => {
+  it("send GET request to http://localhost/commenti/lista_commenti/alessia.angelone", async () => {
+    await fetch("http://localhost/commenti/lista_commenti/alessia.angelone")
+      .then((result) => {
+        expect(result.status).to.equal(200);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  });
 });
