@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
