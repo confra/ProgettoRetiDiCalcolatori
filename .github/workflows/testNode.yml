@@ -18,5 +18,5 @@ jobs:
       - uses: actions/setup-node@v3
       - name: npm installation
         run: npm install
-      - name: run test
-        run: npm run test
+      - name: Run test
+        run: npm test
