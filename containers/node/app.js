@@ -46,7 +46,12 @@ app.use(passport.initialize());
 
 require('./authenticate');
 
-app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/google', passport.authenticate('google', 
+{ scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events' ], 
+  accessType: "offline",
+  prompt: "consent",
+  response_type: "code"
+}));
 
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   //res.redirect('/');
