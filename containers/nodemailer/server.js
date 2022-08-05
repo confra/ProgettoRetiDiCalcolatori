@@ -57,7 +57,9 @@ amqplib.connect('amqp://guest:guest@rabbitmq', (err, connection) => {
                 var mailOptions = {
                 	from: 'daynews1990@gmail.com',
                 	to: email,
-                	text: 'Benvenuto/a ' + username + ' ti sei registrato nel nostro sito web Day News! Accedi al tuo account per rimanere sempre sintonizzato con le notizie giornaliere in Italia'
+                    subject: 'Benvenuto su Day News',
+                    text: 'Hello to myself!',
+                    html: '<h1>Benvenuto/a ' + username +'</h1>'+ "<br><p1>Ti sei registrato al nostro sito web Day News! <br> Accedi al tuo account per rimanere sempre sintonizzato con le notizie giornaliere dall'Italia. </p1>"
                 }
 
                 transport.sendMail(mailOptions, (err, info) => {

@@ -27,19 +27,7 @@ async function insertDOC(dbName, JSON){
 function inserisciUtente(JSON_utente){
     //controlli su JSON_utente
     //  **********************
-    //  **********************
-
-    /* SCHEMA JSON
-     var utente = {
-        _id: JSON_utente.username,
-        nome : JSON_utente.nome,
-        cognome: JSON_utente.cognome,
-        email: JSON_utente.email,
-        password: JSON_utente.password,
-        highscore_nolimits: JSON_utente.highscore_nolimits,
-        highscore_timer: JSON_utente.highscore_timer
-    }; */
-    
+    //  **********************   
     insertDOC("utenti", JSON_utente);
 }
 
