@@ -4,6 +4,7 @@
 const amqplib = require('amqplib/callback_api');
 const nodemailer = require('nodemailer');
 
+//impostazione Nodemailer transport
 const transport = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
@@ -21,11 +22,14 @@ transport.verify((error, success) => {
 	}
 })
 
+//connessione al server AMQP
 amqplib.connect('amqp://guest:guest@rabbitmq', (err, connection) => {
     if (err) {
         console.error(err.stack);
         return process.exit(1);
     }
+
+    //creazione del canale relativo alla connessione
     connection.createChannel((err, channel) => {
         if (err) {
             console.error(err.stack);
@@ -34,7 +38,9 @@ amqplib.connect('amqp://guest:guest@rabbitmq', (err, connection) => {
         
         var queue = 'queue';
 
+        //assicura  la coda per i messaggi
         channel.assertQueue(queue, {
+            //assicura che la coda non venga eliminata durante il restart del server 
             durable: true
         }, err => {
             if (err) {
@@ -42,8 +48,10 @@ amqplib.connect('amqp://guest:guest@rabbitmq', (err, connection) => {
                 return process.exit(1);
             }
 
+            //indica quanti messaggi vogliamo processare in parallelo
             channel.prefetch(1);
 
+            //funzione di callback per gestire i messaggi ricevuti dalla coda 
             channel.consume(queue, data => {
                 if (data === null) {
                     return;
@@ -62,11 +70,14 @@ amqplib.connect('amqp://guest:guest@rabbitmq', (err, connection) => {
                     html: '<h1>Benvenuto/a ' + username +'</h1>'+ "<br><p1>Ti sei registrato al nostro sito web Day News! <br> Accedi al tuo account per rimanere sempre sintonizzato con le notizie giornaliere dall'Italia. </p1>"
                 }
 
+                //invio del messaggio usando la precedente configurazione di Nodemailer trasport
                 transport.sendMail(mailOptions, (err, info) => {
                     if (err) {
                         console.error(err.stack);
+                        //rimette il messaggio andato fallito durante l'invio nella coda
                         return channel.nack(data);
                     }
+                    //rimuove il messaggio dalla coda
                     channel.ack(data);
                 }); 
             }, { noAck: false });

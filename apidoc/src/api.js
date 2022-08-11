@@ -4,9 +4,9 @@
  *
  * @apiParamExample {text} Esempio-Richiesta:
  *      https://localhost/commenti/lista_commenti
- * @apiSuccess {Number} Numero delle righe
- * @apiSuccess {String} offset
- * @apiSuccess {Array} Array contenente l'username dell'utente, il commento e la relativa notizia
+ * @apiSuccess {Number} total_rows Numero delle righe
+ * @apiSuccess {String} offset Differenza rispetto al valore di riferimento iniziale
+ * @apiSuccess {Array} rows Array contenente l'username dell'utente, il commento e la relativa notizia
  * 
  * 
  *
@@ -17,7 +17,7 @@
  *       "rows": [
  *         {
  *           "id": "esattamente",
- *           "ley": "esattamente",
+ *           "key": "esattamente",
  *           "value": [
  *             "ale",
  *             "https://www.liberoquotidiano.it/news/italia/32442748/meteo-mario-tozzi-sta-per-iniziare-era-del-fuoco-terribile-profezia.html",
@@ -73,7 +73,7 @@
  * @apiParam user Username dell'utente a cui siamo interessati
  * @apiParamExample {text} Esempio-Richiesta:
  *      https://localhost/commenti/lista_commenti/ale
- * @apiSuccess {String} use Username utente a cui siamo interessati
+ * @apiSuccess {String} use Username dell'utente a cui siamo interessati
  * @apiSuccess {String} notizia URL della notizia relativa al commento
  * @apiSuccess {String} messaggio Commento dell'utente
  * 

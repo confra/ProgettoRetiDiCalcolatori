@@ -37,7 +37,7 @@ router.get("/main", function(req, expRes){
 	if (req.cookies.username) {
     const userAgent = req.get('user-agent');
 	request({
-		uri: "https://newsapi.org/v2/top-headlines?sources=google-news-it&apiKey=211f82d637df424e94163f662e894a01",
+		uri: "https://newsapi.org/v2/top-headlines?country=it&apiKey=211f82d637df424e94163f662e894a01",
 		method: 'GET',
         headers: {
             'User-Agent': userAgent
